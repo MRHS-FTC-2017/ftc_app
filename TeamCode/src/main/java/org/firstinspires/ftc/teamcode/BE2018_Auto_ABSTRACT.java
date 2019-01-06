@@ -1,48 +1,24 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 
-@Autonomous(name="BE2018_Autonomous", group="Iterative Opmode")
-public class BE2018_Autonomous extends OpMode
+public abstract class BE2018_Auto_ABSTRACT extends LinearOpMode
 {
-    private DcMotor leftFront = null;
-    private DcMotor rightFront= null;
-    private DcMotor leftBack = null;
-    private DcMotor rightBack = null;
-    private DcMotor actuator = null;
 
     private ModernRoboticsI2cColorSensor colorSensor;
 
+    BE2018_RobotHardware robot = new BE2018_RobotHardware();
 
-    @Override
-    public void init() {
-        telemetry.addData("Status", "BE2018 Autonomous Initialized");
-
-        // here we are obtaining the hardware mappings for the motors
-
-        leftFront = hardwareMap.get(DcMotor.class, "leftFront");
-        rightFront = hardwareMap.get(DcMotor.class, "rightFront");
-        leftBack = hardwareMap.get(DcMotor.class, "leftBack");
-        rightBack = hardwareMap.get(DcMotor.class, "rightBack");
-        actuator = hardwareMap.get(DcMotor.class, "actuator");
-
-        colorSensor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "i2cColorSensor");
-    }
-
-    @Override
-    public void init_loop() {
-    }
-
-    @Override
-    public void start() {
-    }
-
+/*
     @Override
     public void loop() {
+
+        actuatorDrop();
+
+
         telemetry.addData("Status", "BE2018 Autonomous Running");
 
         int red = colorSensor.red();
@@ -59,8 +35,36 @@ public class BE2018_Autonomous extends OpMode
         telemetry.addData("Normalized Colors", "RGB (%f, %f, %f)",
                 normalizedRed, normalizedGreen, normalizedBlue);
     }
+*/
 
-    @Override
-    public void stop() {
+    /////////////////////
+    // Autonomous Methods
+    /////////////////////
+
+    void autonomousInit(){
+        telemetry.addData("Status", "BE2018 Autonomous Initialized");
+        robot.init(hardwareMap);
+        colorSensor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "i2cColorSensor");
     }
+
+    void actuatorDrop(int target){
+
+
+        robot.hook.setTargetPosition(target);
+        robot.hook.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.hook.setPower(0.5);
+
+        while(robot.hook.isBusy()) {
+            telemetry.addData("Hook Position", robot.hook.getCurrentPosition());
+            telemetry.update();
+        }
+
+        robot.hook.setPower(0);
+
+        robot.hook.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+    }
+
+
+
 }
