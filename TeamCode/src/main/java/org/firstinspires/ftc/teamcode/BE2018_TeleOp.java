@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 
 @TeleOp(name="BE2018_TeleOp", group="Iterative Opmode")
 public class BE2018_TeleOp extends OpMode
@@ -10,7 +9,7 @@ public class BE2018_TeleOp extends OpMode
     private double direction = 1;
     private double power = 1;
 
-    BE2018_RobotHardware robot = new BE2018_RobotHardware();
+    RobotHardware robot = new RobotHardware();
 
     public void init() {
         telemetry.addData("Status", "BE2018 TeleOp Initialized");
