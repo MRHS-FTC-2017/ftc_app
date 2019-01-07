@@ -36,24 +36,24 @@ public class ForwardDistancePhase implements AutonomousPhase {
     @Override
     public boolean process(RobotHardware robot, Telemetry telemetry) {
         if (!isInitialized) {
-            initMotorStrafe(robot.leftFront, power * (strafe ? -1 : 1));
-            initMotorStrafe(robot.rightFront, power);
-            initMotorStrafe(robot.leftBack, power);
-            initMotorStrafe(robot.rightBack, power* (strafe ? -1 : 1));
+            initMotor(robot.leftFront, power * (strafe ? -1 : 1));
+            initMotor(robot.rightFront, power);
+            initMotor(robot.leftBack, power);
+            initMotor(robot.rightBack, power* (strafe ? -1 : 1));
             isInitialized = true;
         }
 
         if (!leftFrontComplete) {
-            leftFrontComplete = checkMotorStrafe(robot.leftFront);
+            leftFrontComplete = checkMotor(robot.leftFront);
         }
         if (!rightFrontComplete) {
-            rightFrontComplete = checkMotorStrafe(robot.rightFront);
+            rightFrontComplete = checkMotor(robot.rightFront);
         }
         if (!leftBackComplete) {
-            leftBackComplete = checkMotorStrafe(robot.leftBack);
+            leftBackComplete = checkMotor(robot.leftBack);
         }
         if (!rightBackComplete) {
-            rightBackComplete = checkMotorStrafe(robot.rightBack);
+            rightBackComplete = checkMotor(robot.rightBack);
         }
 
         return leftFrontComplete && rightFrontComplete && leftBackComplete && rightBackComplete;
@@ -65,7 +65,7 @@ public class ForwardDistancePhase implements AutonomousPhase {
      * @param motor The motor to initialize
      * @param power The power level to assign to the motor
      */
-    private void initMotorStrafe(DcMotor motor, double power) {
+    private void initMotor(DcMotor motor, double power) {
         motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motor.setTargetPosition(targetPosition * (int)Math.signum(power));
         motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -79,7 +79,7 @@ public class ForwardDistancePhase implements AutonomousPhase {
      * @param motor The motor to check
      * @return True if the motor has reached its target position, false otherwise.
      */
-    private boolean checkMotorStrafe(DcMotor motor) {
+    private boolean checkMotor(DcMotor motor) {
         if (!motor.isBusy()) {
             motor.setPower(0.0f);
             return true;

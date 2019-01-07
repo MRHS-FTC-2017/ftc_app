@@ -33,6 +33,11 @@ public class RobotHardware {
     int colorRightHue;
     int colorLeftHue;
 
+    double distOL;
+    double distIL;
+    double distIR;
+    double distOR;
+
     public RobotHardware() {}
 
     public void init(HardwareMap aHWMap) {
@@ -92,10 +97,10 @@ public class RobotHardware {
         colorLeftHue = (int)hsv[0];
         telemetry.addData("Left HSV", "(%.2f, %.2f, %.2f)", hsv[0], hsv[1], hsv[2]);
 
-        double distOL = distanceOuterLeft.getDistance(DistanceUnit.INCH);
-        double distIL = distanceInnerLeft.getDistance(DistanceUnit.INCH);
-        double distIR = distanceInnerRight.getDistance(DistanceUnit.INCH);
-        double distOR = distanceOuterRight.getDistance(DistanceUnit.INCH);
+        distOL = distanceOuterLeft.getDistance(DistanceUnit.INCH);
+        distIL = distanceInnerLeft.getDistance(DistanceUnit.INCH);
+        distIR = distanceInnerRight.getDistance(DistanceUnit.INCH);
+        distOR = distanceOuterRight.getDistance(DistanceUnit.INCH);
 
         telemetry.addData("Distances", "(%.0f, %.0f, %.0f, %.0f)", distOL, distIL, distIR, distOR);
 
@@ -109,4 +114,21 @@ public class RobotHardware {
     public int getColorLeftHue() {
         return colorLeftHue;
     }
+
+    public double getNearestObject() {
+        double distance = distOL;
+        distance = (distIL < distance) ? distIL : distance;
+        distance = (distIR < distance) ? distIR : distance;
+        distance = (distOR < distance) ? distOR : distance;
+        return distance;
+    }
+
+    public double getDistOL() {
+        return distOL;
+    }
+
+    public double getDistOR() {
+        return distOR;
+    }
 }
+
