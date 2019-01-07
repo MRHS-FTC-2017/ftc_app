@@ -29,6 +29,8 @@ public abstract class AutoAbstract extends OpMode
 
     @Override
     public void loop() {
+        // compute and emit sensor data and telemetry
+        robot.computeTelemetry(telemetry);
 
         // process the current phase, if it indicates it has completed, pop the next phase from list
         if (currentPhase != null) {
@@ -37,8 +39,5 @@ public abstract class AutoAbstract extends OpMode
                 currentPhase = phaseList.pop();
             }
         }
-
-        // tell robot configuration to emit general telemetry
-        robot.emitTelemetry(telemetry);
     }
 }

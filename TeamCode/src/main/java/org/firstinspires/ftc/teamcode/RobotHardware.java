@@ -1,11 +1,12 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import android.graphics.Color;
+
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
@@ -27,6 +28,9 @@ public class RobotHardware {
     public DistanceSensor distanceInnerLeft = null;
     public DistanceSensor distanceInnerRight = null;
     public DistanceSensor distanceOuterRight = null;
+
+    int colorRightHue;
+    int colorLeftHue;
 
     public RobotHardware() {}
 
@@ -54,37 +58,52 @@ public class RobotHardware {
 //        leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 //        rightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
+        leftFront.setDirection(DcMotor.Direction.REVERSE);
+        rightFront.setDirection(DcMotor.Direction.FORWARD);
+        leftBack.setDirection(DcMotor.Direction.REVERSE);
+        rightBack.setDirection(DcMotor.Direction.FORWARD);
         hook.setDirection(DcMotor.Direction.REVERSE);
-        hook.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        hook.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-
     }
 
-    public void emitTelemetry(Telemetry telemetry){
+    private void hsvOfColorSensor(ColorSensor sensor, float[] hsv) {
+        int red = sensor.red();
+        int green = sensor.green();
+        int blue = sensor.blue();
 
-        //Right Color Sensor's Telemetry Data
-        int redRight = colorRight.red();
-        int greenRight = colorRight.green();
-        int blueRight = colorRight.blue();
+        double denom = Math.sqrt(red*red + green*green + blue*blue);
+        int redNorm = (int)(255 * red / denom);
+        int greenNorm = (int)(255 * green / denom);
+        int blueNorm = (int)(255 * blue / denom);
 
-        telemetry.addData("Right Colors", "RGB (%d, %d, %d)", redRight, greenRight, blueRight);
+        Color.RGBToHSV(redNorm, greenNorm, blueNorm, hsv);
+    }
 
-        //Left Color Sensor's Telemetry Data
-        int redLeft = colorLeft.red();
-        int greenLeft = colorLeft.green();
-        int blueLeft = colorLeft.blue();
+    void computeTelemetry(Telemetry telemetry){
+        float[] hsv = new float[3];
 
-        telemetry.addData("Left Colors", "RGB (%d, %d, %d)", redLeft, greenLeft, blueLeft);
+        hsvOfColorSensor(colorRight, hsv);
+        colorRightHue = (int)hsv[0];
+        telemetry.addData("Right HSV", "(%.2f, %.2f, %.2f)", hsv[0], hsv[1], hsv[2]);
+
+        hsvOfColorSensor(colorLeft, hsv);
+        colorLeftHue = (int)hsv[0];
+        telemetry.addData("Left HSV", "(%.2f, %.2f, %.2f)", hsv[0], hsv[1], hsv[2]);
 
         double distOL = distanceOuterLeft.getDistance(DistanceUnit.INCH);
         double distIL = distanceInnerLeft.getDistance(DistanceUnit.INCH);
         double distIR = distanceInnerRight.getDistance(DistanceUnit.INCH);
         double distOR = distanceOuterRight.getDistance(DistanceUnit.INCH);
 
-        telemetry.addData("Distances", "OL|IL|IR|OR (%f, %f, %f, %f)", distOL, distIL, distIR, distOR);
+        telemetry.addData("Distances", "(%.0f, %.0f, %.0f, %.0f)", distOL, distIL, distIR, distOR);
 
         telemetry.addData("Hook Position", "%d", hook.getCurrentPosition());
+    }
 
+    public int getColorRightHue() {
+        return colorRightHue;
+    }
+
+    public int getColorLeftHue() {
+        return colorLeftHue;
     }
 }

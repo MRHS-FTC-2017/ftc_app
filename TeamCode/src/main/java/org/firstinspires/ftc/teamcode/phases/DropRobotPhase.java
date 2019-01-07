@@ -7,13 +7,13 @@ import org.firstinspires.ftc.teamcode.RobotHardware;
 
 public class DropRobotPhase implements AutonomousPhase {
 
-    public static final int HOOK_POSITION_UP = 8000;
+    public static final int HOOK_POSITION_UP = 7800;
     private boolean isInitialized = false;
 
     /**
      * This method processes one op-mode process call with the intent of executing the drop-robot phase
      *
-     * @param robot The robot configuration (provided by the op-mode class
+     * @param robot The robot configuration (provided by the op-mode class)
      * @return True if the drop-robot phase is complete, false if there's more to do.
      */
     @Override
@@ -21,9 +21,10 @@ public class DropRobotPhase implements AutonomousPhase {
         boolean isComplete = false;
 
         if (!isInitialized) {
+            robot.hook.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             robot.hook.setTargetPosition(HOOK_POSITION_UP);
             robot.hook.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.hook.setPower(0.5);
+            robot.hook.setPower(0.75);
             isInitialized = true;
         }
 
