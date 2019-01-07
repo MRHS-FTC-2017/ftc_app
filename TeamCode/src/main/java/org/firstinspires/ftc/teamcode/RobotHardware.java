@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.teamcode.phases.AutonomousPhase;
 
 public class RobotHardware {
 
@@ -78,8 +79,10 @@ public class RobotHardware {
         Color.RGBToHSV(redNorm, greenNorm, blueNorm, hsv);
     }
 
-    void computeTelemetry(Telemetry telemetry){
+    void computeTelemetry(Telemetry telemetry, AutonomousPhase phase){
         float[] hsv = new float[3];
+
+        telemetry.addData("Phase", "%s", phase.getClass().getName());
 
         hsvOfColorSensor(colorRight, hsv);
         colorRightHue = (int)hsv[0];
