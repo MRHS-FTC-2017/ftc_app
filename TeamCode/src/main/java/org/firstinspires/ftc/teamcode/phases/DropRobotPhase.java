@@ -24,7 +24,7 @@ public class DropRobotPhase implements AutonomousPhase {
             robot.hook.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             robot.hook.setTargetPosition(HOOK_POSITION_UP);
             robot.hook.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.hook.setPower(0.75);
+            robot.hook.setPower(1.0);
             isInitialized = true;
         }
 

@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.phases;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.RobotHardware;
@@ -9,24 +10,28 @@ public class ForwardColorPhase implements AutonomousPhase {
 
 
     private boolean isInitialized = false;
-    private double targetDistance;
     private double power;
     private boolean strafe;
     private double hueMax;
     private double hueMin;
+    private long maxDuration;
+    private ElapsedTime runtime = new ElapsedTime();
+
 
     /**
-     * This instantiates the phase with a given target position (positive is forward (or left in strafe mode)) and power
+     * This phase will move the robot until it sees a color in the specific hue range.
      *
-     * @param targetDistance Distance from object at which the robot will stop
-     * @param power          Target power level for strafe movement
+     * @param power  Power to assign for movement (forrward and left (strafe) are positive)
+     * @param strafe Set to true if robot should strafe
+     * @param hueMax Maximum hue to recognize as target color
+     * @param hueMin Minimum hue to recognize as target color
      */
-    public ForwardColorPhase(double targetDistance, double power, boolean strafe, double hueMax, double hueMin) {
-        this.targetDistance = targetDistance;
+    public ForwardColorPhase(double power, boolean strafe, double hueMax, double hueMin, long maxDuration) {
         this.power = power;
         this.strafe = strafe;
         this.hueMax = hueMax;
         this.hueMin = hueMin;
+        this.maxDuration = maxDuration;
     }
 
     /**
@@ -41,29 +46,17 @@ public class ForwardColorPhase implements AutonomousPhase {
 
         if (!isInitialized) {
             setMotors(robot, power);
+            runtime.reset();
             isInitialized = true;
         }
 
-        double distance;
-        if (!strafe) {
-            distance = robot.getNearestObject();
-        } else {
-            if (power > 0) {
-                distance = robot.getDistOL();
-            } else {
-                distance = robot.getDistOR();
-            }
-        }
-
-        if (distance < targetDistance) {
-            backUpMotors(robot);
-        }
-        else if (distance >= targetDistance){
-            setMotors(robot, power);
-        }
-
         if ((robot.getColorLeftHue() <= hueMax && robot.getColorLeftHue() >= hueMin) ||
-                (robot.getColorRightHue() <= hueMin && robot.getColorRightHue() >= hueMin)){
+                (robot.getColorRightHue() <= hueMax && robot.getColorRightHue() >= hueMin)) {
+            setMotors(robot, 0);
+            isComplete = true;
+        }
+
+        if (runtime.milliseconds() >= maxDuration) {
             setMotors(robot, 0);
             isComplete = true;
         }
@@ -87,13 +80,5 @@ public class ForwardColorPhase implements AutonomousPhase {
         initMotor(robot.rightFront, power);
         initMotor(robot.leftBack, power);
         initMotor(robot.rightBack, power * (strafe ? -1 : 1));
-    }
-
-    private void backUpMotors(RobotHardware robot) {
-        double backUp = -0.25;
-        initMotor(robot.leftFront, backUp);
-        initMotor(robot.rightFront, backUp);
-        initMotor(robot.leftBack, backUp);
-        initMotor(robot.rightBack, backUp);
     }
 }
