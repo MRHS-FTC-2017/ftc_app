@@ -19,7 +19,7 @@ public class BE2018_AutoClaimSide extends AutoAbstract {
         phaseList.add(new ForwardDurationPhase(100, 0.25, true));
         phaseList.add(new ForwardDurationPhase(100, 0.25, false));
         phaseList.add(new ForwardDurationPhase(100, -0.25, true));
-        phaseList.add(new ForwardSensePhase(2, 0.5, false, 10, 0.9));
+        phaseList.add(new ForwardSensePhase(6, 0.25, false, 20, 0.95));
         phaseList.add(new DoNothingPhase());
     }
 }

@@ -5,15 +5,15 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.RobotHardware;
 
-public class ForwardSensePhase implements AutonomousPhase {
+public class ForwardColorPhase implements AutonomousPhase {
 
 
     private boolean isInitialized = false;
     private double targetDistance;
     private double power;
     private boolean strafe;
-    private double backOff;
-    private double leadDistance;
+    private double hueMax;
+    private double hueMin;
 
     /**
      * This instantiates the phase with a given target position (positive is forward (or left in strafe mode)) and power
@@ -21,12 +21,12 @@ public class ForwardSensePhase implements AutonomousPhase {
      * @param targetDistance Distance from object at which the robot will stop
      * @param power          Target power level for strafe movement
      */
-    public ForwardSensePhase(double targetDistance, double power, boolean strafe, double leadDistance, double backOff) {
+    public ForwardColorPhase(double targetDistance, double power, boolean strafe, double hueMax, double hueMin) {
         this.targetDistance = targetDistance;
         this.power = power;
         this.strafe = strafe;
-        this.backOff = backOff;
-        this.leadDistance = leadDistance;
+        this.hueMax = hueMax;
+        this.hueMin = hueMin;
     }
 
     /**
@@ -55,20 +55,16 @@ public class ForwardSensePhase implements AutonomousPhase {
             }
         }
 
-//        if (distance <= targetDistance + leadDistance) {
-//            setMotors(robot, power - ((backOff + targetDistance - distance) * (power * leadDistance / backOff)));
-//        }
-
-        if (distance <= targetDistance + leadDistance){
-            setMotors(robot, power - (backOff/leadDistance));
+        if (distance < targetDistance) {
+            backUpMotors(robot);
+        }
+        else if (distance >= targetDistance){
+            setMotors(robot, power);
         }
 
-
-        if (distance <= targetDistance) {
-            robot.leftFront.setPower(0.0f);
-            robot.rightFront.setPower(0.0f);
-            robot.leftBack.setPower(0.0f);
-            robot.rightBack.setPower(0.0f);
+        if ((robot.getColorLeftHue() <= hueMax && robot.getColorLeftHue() >= hueMin) ||
+                (robot.getColorRightHue() <= hueMin && robot.getColorRightHue() >= hueMin)){
+            setMotors(robot, 0);
             isComplete = true;
         }
 
@@ -91,5 +87,13 @@ public class ForwardSensePhase implements AutonomousPhase {
         initMotor(robot.rightFront, power);
         initMotor(robot.leftBack, power);
         initMotor(robot.rightBack, power * (strafe ? -1 : 1));
+    }
+
+    private void backUpMotors(RobotHardware robot) {
+        double backUp = -0.25;
+        initMotor(robot.leftFront, backUp);
+        initMotor(robot.rightFront, backUp);
+        initMotor(robot.leftBack, backUp);
+        initMotor(robot.rightBack, backUp);
     }
 }
