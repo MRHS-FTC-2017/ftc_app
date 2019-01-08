@@ -49,20 +49,15 @@ public class ForwardSensePhase implements AutonomousPhase {
             distance = robot.getNearestObject();
         } else {
             if (power > 0) {
-                distance = robot.getDistOL();
-            } else {
                 distance = robot.getDistOR();
+            } else {
+                distance = robot.getDistOL();
             }
         }
 
-//        if (distance <= targetDistance + leadDistance) {
-//            setMotors(robot, power - ((backOff + targetDistance - distance) * (power * leadDistance / backOff)));
-//        }
-
-        if (distance <= targetDistance + leadDistance){
-            setMotors(robot, power - (backOff/leadDistance));
+        if (distance <= targetDistance + leadDistance) {
+            setMotors(robot, power - ((leadDistance + targetDistance - distance) * (power * backOff / leadDistance)));
         }
-
 
         if (distance <= targetDistance) {
             robot.leftFront.setPower(0.0f);

@@ -11,7 +11,6 @@ public class ForwardDurationPhase implements AutonomousPhase {
     private long duration;
     private double power;
     private boolean strafe;
-    private boolean rightBackComplete = false;
     private ElapsedTime runtime = new ElapsedTime();
 
     /**
