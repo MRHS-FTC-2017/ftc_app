@@ -45,9 +45,18 @@ public class ForwardColorPhase implements AutonomousPhase {
         boolean isComplete = false;
 
         if (!isInitialized) {
-            setMotors(robot, power);
+            if ((robot.getColorLeftHue() <= hueMax && robot.getColorLeftHue() >= hueMin) ||
+                    (robot.getColorRightHue() <= hueMax && robot.getColorRightHue() >= hueMin)) {
+                setMotors(robot, 0);
+                isComplete = true;
+            }
+            else {
+                setMotors(robot, power);
+            }
+
             runtime.reset();
             isInitialized = true;
+
         }
 
         if ((robot.getColorLeftHue() <= hueMax && robot.getColorLeftHue() >= hueMin) ||
@@ -57,8 +66,8 @@ public class ForwardColorPhase implements AutonomousPhase {
         }
 
         if (runtime.milliseconds() >= maxDuration) {
-            setMotors(robot, 0);
-            isComplete = true;
+            power *= -1;
+            setMotors(robot, power);
         }
 
         return isComplete;

@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
@@ -21,6 +22,8 @@ public class RobotHardware {
     public DcMotor leftBack = null;
     public DcMotor rightBack = null;
     public DcMotor hook = null;
+
+    public Servo arm = null;
 
     public ColorSensor colorRight = null;
     public ColorSensor colorLeft = null;
@@ -38,6 +41,8 @@ public class RobotHardware {
     double distIR;
     double distOR;
 
+    double armCurrentPosition;
+
     public RobotHardware() {}
 
     public void init(HardwareMap aHWMap) {
@@ -50,6 +55,7 @@ public class RobotHardware {
         leftBack = hwMap.get(DcMotor.class, "leftBack");
         rightBack = hwMap.get(DcMotor.class, "rightBack");
         hook = hwMap.get(DcMotor.class, "hook");
+        arm = hwMap.get(Servo.class, "arm");
 
         // Hardware Mappings for Color & Distance Sensors
         colorRight = hwMap.get(ColorSensor.class, "colorRight");
@@ -69,6 +75,9 @@ public class RobotHardware {
         leftBack.setDirection(DcMotor.Direction.REVERSE);
         rightBack.setDirection(DcMotor.Direction.FORWARD);
         hook.setDirection(DcMotor.Direction.REVERSE);
+
+        arm.setPosition(0.25);
+
     }
 
     private void hsvOfColorSensor(ColorSensor sensor, float[] hsv) {
@@ -105,6 +114,11 @@ public class RobotHardware {
         telemetry.addData("Distances", "(%.0f, %.0f, %.0f, %.0f)", distOL, distIL, distIR, distOR);
 
         telemetry.addData("Hook Position", "%d", hook.getCurrentPosition());
+
+        armCurrentPosition = arm.getPosition();
+
+        telemetry.addData("Servo Position", "%.0f", armCurrentPosition);
+
     }
 
     public int getColorRightHue() {
@@ -130,5 +144,8 @@ public class RobotHardware {
     public double getDistOR() {
         return distOR;
     }
+
+    public double getArmCurrentPosition () { return armCurrentPosition; }
 }
+
 
