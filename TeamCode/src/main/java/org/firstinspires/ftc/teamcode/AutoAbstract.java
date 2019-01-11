@@ -1,13 +1,14 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.util.Pair;
+
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.phases.AutonomousPhase;
 
 import java.util.LinkedList;
 
-public abstract class AutoAbstract extends OpMode
-{
+public abstract class AutoAbstract extends OpMode {
     private RobotHardware robot = new RobotHardware();
     private LinkedList<AutonomousPhase> phaseList = null;
     private AutonomousPhase currentPhase = null;
@@ -34,9 +35,15 @@ public abstract class AutoAbstract extends OpMode
 
         // process the current phase, if it indicates it has completed, pop the next phase from list
         if (currentPhase != null) {
-            boolean phaseCompleted = currentPhase.process(robot, telemetry);
+            Pair<Boolean, AutonomousPhase> result = currentPhase.process(robot, telemetry);
+            boolean phaseCompleted = result.first;
             if (phaseCompleted) {
-                currentPhase = phaseList.pop();
+                AutonomousPhase injectedPhase = result.second;
+                if (injectedPhase == null) {
+                    currentPhase = phaseList.pop();
+                } else {
+                    currentPhase = injectedPhase;
+                }
             }
         }
     }

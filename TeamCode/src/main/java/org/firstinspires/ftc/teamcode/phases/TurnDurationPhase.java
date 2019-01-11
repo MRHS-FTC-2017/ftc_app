@@ -8,13 +8,14 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.RobotHardware;
 
-public class ForwardDurationPhase implements AutonomousPhase {
+public class TurnDurationPhase implements AutonomousPhase {
     private boolean isInitialized = false;
     private long duration;
     private double power;
-    private boolean strafe;
-    private ElapsedTime runtime = new ElapsedTime();
+    private int elementsPassed;
+    private AutonomousPhase injectedPhase;
 
+    private ElapsedTime runtime = new ElapsedTime();
 
     /**
      * This instantiates the phase with a given target position (positive is forward (or left in strafe mode)) and power
@@ -22,11 +23,11 @@ public class ForwardDurationPhase implements AutonomousPhase {
      * @param duration Length of time for wheel rotation to strafe leftward
      * @param power Target power level for strafe movement
      */
-    public ForwardDurationPhase(long duration, double power, boolean strafe) {
+    public TurnDurationPhase(long duration, double power, int elementsPassed) {
         this.duration = duration;
         this.power = power;
-        this.strafe = strafe;
-
+        this.elementsPassed = elementsPassed;
+        this.injectedPhase = null;
     }
 
     /**
@@ -40,10 +41,10 @@ public class ForwardDurationPhase implements AutonomousPhase {
         boolean isComplete = false;
 
         if (!isInitialized) {
-            initMotorStrafe(robot.leftFront, power * (strafe ? -1 : 1));
+            initMotorStrafe(robot.leftFront, -power);
             initMotorStrafe(robot.rightFront, power);
-            initMotorStrafe(robot.leftBack, power);
-            initMotorStrafe(robot.rightBack, power* (strafe ? -1 : 1));
+            initMotorStrafe(robot.leftBack, -power);
+            initMotorStrafe(robot.rightBack, power);
             runtime.reset();
             isInitialized = true;
         }
@@ -56,7 +57,18 @@ public class ForwardDurationPhase implements AutonomousPhase {
             isComplete = true;
         }
 
-        return new Pair<>(isComplete,null);
+
+        if (isComplete) {
+            if (elementsPassed == 0) {
+                injectedPhase = new ForwardDurationPhase(1000,1,false);
+            }
+            else if (elementsPassed == 2) {
+                injectedPhase = new ForwardDurationPhase(1000,1,false);
+            }
+        }
+
+
+        return new Pair<>(isComplete, injectedPhase);
     }
 
     /**

@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.phases;
 
+import android.util.Pair;
+
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -15,7 +17,11 @@ public class ForwardColorPhase implements AutonomousPhase {
     private double hueMax;
     private double hueMin;
     private long maxDuration;
+    private double cutOff;
+    boolean seen;
     private ElapsedTime runtime = new ElapsedTime();
+    private AutonomousPhase injectedPhase;
+    private int elementsPassed;
 
 
     /**
@@ -26,12 +32,16 @@ public class ForwardColorPhase implements AutonomousPhase {
      * @param hueMax Maximum hue to recognize as target color
      * @param hueMin Minimum hue to recognize as target color
      */
-    public ForwardColorPhase(double power, boolean strafe, double hueMax, double hueMin, long maxDuration) {
+    public ForwardColorPhase(double power, boolean strafe, double hueMax, double hueMin, long maxDuration, double cutOff) {
         this.power = power;
         this.strafe = strafe;
         this.hueMax = hueMax;
         this.hueMin = hueMin;
         this.maxDuration = maxDuration;
+        this.cutOff = cutOff;
+        this.seen = false;
+        this.injectedPhase = null;
+        this.elementsPassed = 0;
     }
 
     /**
@@ -41,19 +51,11 @@ public class ForwardColorPhase implements AutonomousPhase {
      * @return True if the forward phase is complete, false if there's more to do.
      */
     @Override
-    public boolean process(RobotHardware robot, Telemetry telemetry) {
+    public Pair<Boolean,AutonomousPhase> process(RobotHardware robot, Telemetry telemetry) {
         boolean isComplete = false;
 
         if (!isInitialized) {
-            if ((robot.getColorLeftHue() <= hueMax && robot.getColorLeftHue() >= hueMin) ||
-                    (robot.getColorRightHue() <= hueMax && robot.getColorRightHue() >= hueMin)) {
-                setMotors(robot, 0);
-                isComplete = true;
-            }
-            else {
-                setMotors(robot, power);
-            }
-
+            setMotors(robot, power);
             runtime.reset();
             isInitialized = true;
 
@@ -70,7 +72,32 @@ public class ForwardColorPhase implements AutonomousPhase {
             setMotors(robot, power);
         }
 
-        return isComplete;
+        //////////
+        //Looks for spikes in distance
+        //////////
+
+        if (robot.getDistOL() <= cutOff && !seen) {
+            elementsPassed += 1;
+            seen = true;
+        }
+
+        if (robot.getDistOL() > cutOff && seen) {
+            seen = false;
+        }
+
+        if (isComplete) {
+            if (elementsPassed == 0) {
+                injectedPhase = new TurnDurationPhase(-500, 1, elementsPassed);
+            }
+            else if (elementsPassed == 1) {
+                injectedPhase = new ForwardDurationPhase(1000,1,false);
+            }
+            else if (elementsPassed == 2) {
+                injectedPhase = new TurnDurationPhase(500, 1, elementsPassed);
+            }
+        }
+
+        return new Pair<>(isComplete, injectedPhase);
     }
 
     /**

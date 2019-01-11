@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.phases;
 
+import android.util.Pair;
+
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -36,7 +38,7 @@ public class ForwardSensePhase implements AutonomousPhase {
      * @return True if the forward phase is complete, false if there's more to do.
      */
     @Override
-    public boolean process(RobotHardware robot, Telemetry telemetry) {
+    public Pair<Boolean,AutonomousPhase> process(RobotHardware robot, Telemetry telemetry) {
         boolean isComplete = false;
 
         if (!isInitialized) {
@@ -64,7 +66,7 @@ public class ForwardSensePhase implements AutonomousPhase {
             isComplete = true;
         }
 
-        return isComplete;
+        return new Pair<>(isComplete, null);
     }
 
     /**

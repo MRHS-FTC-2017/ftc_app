@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.phases;
 
+import android.util.Pair;
+
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.RobotHardware;
 
@@ -14,7 +16,7 @@ public class DoNothingPhase implements AutonomousPhase {
      * @return False always.
      */
     @Override
-    public boolean process(RobotHardware robot, Telemetry telemetry) {
-        return false;
+    public Pair<Boolean,AutonomousPhase> process(RobotHardware robot, Telemetry telemetry) {
+        return new Pair<>(false, null);
     }
 }

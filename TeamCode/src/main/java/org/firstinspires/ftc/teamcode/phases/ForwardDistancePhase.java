@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.phases;
 
+import android.util.Pair;
+
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -34,7 +36,7 @@ public class ForwardDistancePhase implements AutonomousPhase {
      * @return True if the forward phase is complete, false if there's more to do.
      */
     @Override
-    public boolean process(RobotHardware robot, Telemetry telemetry) {
+    public Pair<Boolean,AutonomousPhase> process(RobotHardware robot, Telemetry telemetry) {
         if (!isInitialized) {
             initMotor(robot.leftFront, power * (strafe ? -1 : 1));
             initMotor(robot.rightFront, power);
@@ -56,7 +58,7 @@ public class ForwardDistancePhase implements AutonomousPhase {
             rightBackComplete = checkMotor(robot.rightBack);
         }
 
-        return leftFrontComplete && rightFrontComplete && leftBackComplete && rightBackComplete;
+        return new Pair<>(leftFrontComplete && rightFrontComplete && leftBackComplete && rightBackComplete, null);
     }
 
     /**

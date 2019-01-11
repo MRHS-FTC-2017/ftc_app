@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.phases;
 
+import android.util.Pair;
+
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -23,7 +25,7 @@ public class MarkerDropPhase implements AutonomousPhase {
      * @return True if the forward phase is complete, false if there's more to do.
      */
     @Override
-    public boolean process(RobotHardware robot, Telemetry telemetry) {
+    public Pair<Boolean,AutonomousPhase> process(RobotHardware robot, Telemetry telemetry) {
 
         robot.arm.setPosition(position);
         if (forward) {
@@ -33,6 +35,6 @@ public class MarkerDropPhase implements AutonomousPhase {
             robot.arm.setDirection(Servo.Direction.REVERSE);
         }
 
-        return true;
+        return new Pair<>(true, null);
     }
 }

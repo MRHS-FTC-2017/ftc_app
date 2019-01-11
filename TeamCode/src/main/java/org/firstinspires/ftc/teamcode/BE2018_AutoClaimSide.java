@@ -21,10 +21,10 @@ public class BE2018_AutoClaimSide extends AutoAbstract {
         phaseList.add(new ForwardDurationPhase(100, 0.25, true));
         phaseList.add(new ForwardDurationPhase(100, 0.25, false));
         phaseList.add(new ForwardDurationPhase(100, -0.25, true));
-        phaseList.add(new ForwardSensePhase(3.75, 1, false, 15, 0.90));
-        phaseList.add(new ForwardSensePhase(4, 0.25,true, 0, 0));
-        phaseList.add(new ForwardColorPhase(-0.25, true,60,10, 4500));
-        phaseList.add(new ForwardDurationPhase(1000, 0.5, false));
+        phaseList.add(new ForwardSensePhase(4, 1, false, 15, 0.90));
+        phaseList.add(new ForwardSensePhase(5, 0.25,true, 0, 0));
+        phaseList.add(new ForwardDurationPhase(100, 0.25, true));
+        phaseList.add(new ForwardColorPhase(-0.25, true,60,10, 4500, 5));
         phaseList.add(new MarkerDropPhase(0.87, true));
         phaseList.add(new DoNothingPhase());
     }
