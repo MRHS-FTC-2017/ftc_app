@@ -12,8 +12,6 @@ public class TurnDurationPhase implements AutonomousPhase {
     private boolean isInitialized = false;
     private long duration;
     private double power;
-    private int elementsPassed;
-    private AutonomousPhase injectedPhase;
 
     private ElapsedTime runtime = new ElapsedTime();
 
@@ -23,11 +21,9 @@ public class TurnDurationPhase implements AutonomousPhase {
      * @param duration Length of time for wheel rotation to strafe leftward
      * @param power Target power level for strafe movement
      */
-    public TurnDurationPhase(long duration, double power, int elementsPassed) {
+    public TurnDurationPhase(long duration, double power) {
         this.duration = duration;
         this.power = power;
-        this.elementsPassed = elementsPassed;
-        this.injectedPhase = null;
     }
 
     /**
@@ -58,17 +54,7 @@ public class TurnDurationPhase implements AutonomousPhase {
         }
 
 
-        if (isComplete) {
-            if (elementsPassed == 0) {
-                injectedPhase = new ForwardDurationPhase(1000,1,false);
-            }
-            else if (elementsPassed == 2) {
-                injectedPhase = new ForwardDurationPhase(1000,1,false);
-            }
-        }
-
-
-        return new Pair<>(isComplete, injectedPhase);
+        return new Pair<>(isComplete, null);
     }
 
     /**

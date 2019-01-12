@@ -8,12 +8,12 @@ import org.firstinspires.ftc.teamcode.phases.DropRobotPhase;
 import org.firstinspires.ftc.teamcode.phases.ForwardColorPhase;
 import org.firstinspires.ftc.teamcode.phases.ForwardDurationPhase;
 import org.firstinspires.ftc.teamcode.phases.ForwardSensePhase;
-import org.firstinspires.ftc.teamcode.phases.MarkerDropPhase;
+
 
 import java.util.LinkedList;
 
-@Autonomous(name="BE2018_AutoClaimSide", group="Iterative Opmode")
-public class BE2018_AutoClaimSide extends AutoAbstract {
+@Autonomous(name="BE2018_AutoCraterSide", group="Iterative Opmode")
+public class BE2018_AutoCraterSide extends AutoAbstract {
 
     @Override
     void setPhases(LinkedList<AutonomousPhase> phaseList) {
@@ -32,12 +32,10 @@ public class BE2018_AutoClaimSide extends AutoAbstract {
         phaseList.add(new ForwardSensePhase(5, 0.25,true, 0, 0));
         phaseList.add(new ForwardDurationPhase(10, 0.5, true,false));
 
-        // strafe to select gold mineral
-        phaseList.add(new ForwardColorPhase(-0.28, true,45,10, 10000, 9));
-
-        //
-        phaseList.add(new ForwardDurationPhase(1200, 1, false,false));
-        phaseList.add(new MarkerDropPhase(0.87, true));
+        phaseList.add(new ForwardColorPhase(-0.28, true,50,10, 10000, 9));
+        phaseList.add(new ForwardDurationPhase(150, 1, false, false));
+        phaseList.add(new ForwardDurationPhase(300, -1, false, false));
+        phaseList.add(new ForwardDurationPhase(550, 1, true, false));
         phaseList.add(new DoNothingPhase());
     }
 }

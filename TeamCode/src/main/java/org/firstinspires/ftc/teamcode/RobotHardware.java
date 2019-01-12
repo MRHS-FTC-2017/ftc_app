@@ -145,6 +145,10 @@ public class RobotHardware {
         return distOR;
     }
 
+    public double getDistIL() { return  distIL; }
+
+    public double getDistIR() { return distIR; }
+
     public double getArmCurrentPosition () { return armCurrentPosition; }
 }
 

@@ -61,39 +61,39 @@ public class ForwardColorPhase implements AutonomousPhase {
 
         }
 
-        if ((robot.getColorLeftHue() <= hueMax && robot.getColorLeftHue() >= hueMin) ||
-                (robot.getColorRightHue() <= hueMax && robot.getColorRightHue() >= hueMin)) {
-            setMotors(robot, 0);
-            isComplete = true;
-        }
-
-        if (runtime.milliseconds() >= maxDuration) {
-            power *= -1;
-            setMotors(robot, power);
-        }
 
         //////////
         //Looks for spikes in distance
         //////////
 
-        if (robot.getDistOL() <= cutOff && !seen) {
+        if (robot.getDistIL() <= cutOff && !seen) {
             elementsPassed += 1;
             seen = true;
         }
 
-        if (robot.getDistOL() > cutOff && seen) {
+        if (robot.getDistIL() > cutOff && seen) {
             seen = false;
         }
 
+        if (robot.getColorLeftHue() <= hueMax && robot.getColorLeftHue() >= hueMin) {
+            setMotors(robot, 0);
+            isComplete = true;
+        }
+
+        if (runtime.milliseconds() >= maxDuration) {
+            setMotors(robot,0);
+            isComplete = true;
+        }
+
         if (isComplete) {
-            if (elementsPassed == 0) {
-                injectedPhase = new TurnDurationPhase(-500, 1, elementsPassed);
-            }
-            else if (elementsPassed == 1) {
-                injectedPhase = new ForwardDurationPhase(1000,1,false);
+            if (elementsPassed == 1) {
+                injectedPhase = new ForwardDurationPhase(250, 1, true,true);
             }
             else if (elementsPassed == 2) {
-                injectedPhase = new TurnDurationPhase(500, 1, elementsPassed);
+                injectedPhase = new ForwardDurationPhase(100, 1, true, false);
+            }
+            else if (elementsPassed == 3) {
+                injectedPhase = new TurnDurationPhase(100, 0.60);
             }
         }
 

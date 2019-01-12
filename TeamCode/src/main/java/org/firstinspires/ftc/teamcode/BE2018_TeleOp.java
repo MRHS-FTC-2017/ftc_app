@@ -41,7 +41,7 @@ public class BE2018_TeleOp extends OpMode
 
         if (gamepad1.y) {
             if (!yButtonHeld) {
-                power *= -1;
+                direction *= -1;
                 yButtonHeld = true;
             }
         } else {
@@ -54,16 +54,16 @@ public class BE2018_TeleOp extends OpMode
         robot.rightBack.setPower((x - y) * direction * power);
 
         if(gamepad1.left_bumper){
-            robot.leftFront.setPower(-1 * direction * -power);
-            robot.rightFront.setPower(-1* direction * power);
-            robot.leftBack.setPower(-1 * direction * -power);
-            robot.rightBack.setPower(-1 * direction * power);
+            robot.leftFront.setPower(-1 * power);
+            robot.rightFront.setPower(1* power);
+            robot.leftBack.setPower(-1 * power);
+            robot.rightBack.setPower(1 * power);
         }
         else if(gamepad1.right_bumper){
-            robot.leftFront.setPower(1 * direction * -power);
-            robot.rightFront.setPower(1* direction * power);
-            robot.leftBack.setPower(1 * direction * -power);
-            robot.rightBack.setPower(1 * direction * power);
+            robot.leftFront.setPower(1 * power);
+            robot.rightFront.setPower(-1* power);
+            robot.leftBack.setPower(1 * power);
+            robot.rightBack.setPower(-1 * power);
         }
 
         double hook;
