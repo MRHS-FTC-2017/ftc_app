@@ -8,12 +8,13 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.RobotHardware;
 
+import java.util.LinkedList;
+
 public class ForwardDurationPhase implements AutonomousPhase {
     private boolean isInitialized = false;
     private long duration;
     private double power;
     private boolean strafe;
-    private boolean firstElement;
     private AutonomousPhase injectedPhase;
     private ElapsedTime runtime = new ElapsedTime();
 
@@ -24,11 +25,10 @@ public class ForwardDurationPhase implements AutonomousPhase {
      * @param duration Length of time for wheel rotation to strafe leftward
      * @param power Target power level for strafe movement
      */
-    public ForwardDurationPhase(long duration, double power, boolean strafe, boolean firstElement) {
+    public ForwardDurationPhase(long duration, double power, boolean strafe) {
         this.duration = duration;
         this.power = power;
         this.strafe = strafe;
-        this.firstElement = firstElement;
         this.injectedPhase = null;
     }
 
@@ -39,7 +39,7 @@ public class ForwardDurationPhase implements AutonomousPhase {
      * @return True if the forward phase is complete, false if there's more to do.
      */
     @Override
-    public Pair<Boolean,AutonomousPhase> process(RobotHardware robot, Telemetry telemetry) {
+    public Pair<Boolean, LinkedList<AutonomousPhase>> process(RobotHardware robot, Telemetry telemetry) {
         boolean isComplete = false;
 
         if (!isInitialized) {
@@ -59,11 +59,7 @@ public class ForwardDurationPhase implements AutonomousPhase {
             isComplete = true;
         }
 
-        if (firstElement){
-            injectedPhase = new TurnDurationPhase(100, -0.60);
-        }
-
-        return new Pair<>(isComplete,injectedPhase);
+        return new Pair<>(isComplete,null);
     }
 
     /**

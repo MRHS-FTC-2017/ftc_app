@@ -7,6 +7,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.RobotHardware;
 
+import java.util.LinkedList;
+
 public class ForwardSensePhase implements AutonomousPhase {
 
 
@@ -38,7 +40,7 @@ public class ForwardSensePhase implements AutonomousPhase {
      * @return True if the forward phase is complete, false if there's more to do.
      */
     @Override
-    public Pair<Boolean,AutonomousPhase> process(RobotHardware robot, Telemetry telemetry) {
+    public Pair<Boolean, LinkedList<AutonomousPhase>> process(RobotHardware robot, Telemetry telemetry) {
         boolean isComplete = false;
 
         if (!isInitialized) {

@@ -8,7 +8,10 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.RobotHardware;
 
-public class ForwardColorPhase implements AutonomousPhase {
+import java.util.LinkedList;
+import java.util.List;
+
+public class ForwardColorDepotPhase implements AutonomousPhase {
 
 
     private boolean isInitialized = false;
@@ -20,7 +23,7 @@ public class ForwardColorPhase implements AutonomousPhase {
     private double cutOff;
     boolean seen;
     private ElapsedTime runtime = new ElapsedTime();
-    private AutonomousPhase injectedPhase;
+    private LinkedList<AutonomousPhase> injectedPhases;
     private int elementsPassed;
 
 
@@ -32,7 +35,7 @@ public class ForwardColorPhase implements AutonomousPhase {
      * @param hueMax Maximum hue to recognize as target color
      * @param hueMin Minimum hue to recognize as target color
      */
-    public ForwardColorPhase(double power, boolean strafe, double hueMax, double hueMin, long maxDuration, double cutOff) {
+    public ForwardColorDepotPhase(double power, boolean strafe, double hueMax, double hueMin, long maxDuration, double cutOff) {
         this.power = power;
         this.strafe = strafe;
         this.hueMax = hueMax;
@@ -40,7 +43,7 @@ public class ForwardColorPhase implements AutonomousPhase {
         this.maxDuration = maxDuration;
         this.cutOff = cutOff;
         this.seen = false;
-        this.injectedPhase = null;
+        this.injectedPhases = null;
         this.elementsPassed = 0;
     }
 
@@ -51,7 +54,7 @@ public class ForwardColorPhase implements AutonomousPhase {
      * @return True if the forward phase is complete, false if there's more to do.
      */
     @Override
-    public Pair<Boolean,AutonomousPhase> process(RobotHardware robot, Telemetry telemetry) {
+    public Pair<Boolean, LinkedList<AutonomousPhase>> process(RobotHardware robot, Telemetry telemetry) {
         boolean isComplete = false;
 
         if (!isInitialized) {
@@ -81,23 +84,26 @@ public class ForwardColorPhase implements AutonomousPhase {
         }
 
         if (runtime.milliseconds() >= maxDuration) {
-            setMotors(robot,0);
+            setMotors(robot, 0);
             isComplete = true;
         }
 
         if (isComplete) {
             if (elementsPassed == 1) {
-                injectedPhase = new ForwardDurationPhase(250, 1, true,true);
-            }
-            else if (elementsPassed == 2) {
-                injectedPhase = new ForwardDurationPhase(100, 1, true, false);
-            }
-            else if (elementsPassed == 3) {
-                injectedPhase = new TurnDurationPhase(100, 0.60);
+                injectedPhases = new LinkedList<>();
+                injectedPhases.add(new TurnDurationPhase(100,-0.60));
+                injectedPhases.add(new ForwardDurationPhase(700, 1, true));
+            } else if (elementsPassed == 2) {
+                injectedPhases = new LinkedList<>();
+                injectedPhases.add(new ForwardDurationPhase(700, 1, true));
+            } else if (elementsPassed == 3) {
+                injectedPhases = new LinkedList<>();
+                injectedPhases.add(new TurnDurationPhase(100, 0.60));
+                injectedPhases.add(new ForwardDurationPhase(700, 1, true));
             }
         }
 
-        return new Pair<>(isComplete, injectedPhase);
+        return new Pair<Boolean, LinkedList<AutonomousPhase>>(isComplete, injectedPhases);
     }
 
     /**

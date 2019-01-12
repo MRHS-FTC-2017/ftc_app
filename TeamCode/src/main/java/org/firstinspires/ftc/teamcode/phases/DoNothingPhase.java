@@ -5,6 +5,8 @@ import android.util.Pair;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.RobotHardware;
 
+import java.util.LinkedList;
+
 public class DoNothingPhase implements AutonomousPhase {
 
     /**
@@ -16,7 +18,7 @@ public class DoNothingPhase implements AutonomousPhase {
      * @return False always.
      */
     @Override
-    public Pair<Boolean,AutonomousPhase> process(RobotHardware robot, Telemetry telemetry) {
+    public Pair<Boolean, LinkedList<AutonomousPhase>> process(RobotHardware robot, Telemetry telemetry) {
         return new Pair<>(false, null);
     }
 }

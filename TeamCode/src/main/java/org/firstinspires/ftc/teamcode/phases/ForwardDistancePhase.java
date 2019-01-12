@@ -7,6 +7,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.RobotHardware;
 
+import java.util.LinkedList;
+
 public class ForwardDistancePhase implements AutonomousPhase {
     private boolean isInitialized = false;
     private int targetPosition;
@@ -36,7 +38,7 @@ public class ForwardDistancePhase implements AutonomousPhase {
      * @return True if the forward phase is complete, false if there's more to do.
      */
     @Override
-    public Pair<Boolean,AutonomousPhase> process(RobotHardware robot, Telemetry telemetry) {
+    public Pair<Boolean, LinkedList<AutonomousPhase>> process(RobotHardware robot, Telemetry telemetry) {
         if (!isInitialized) {
             initMotor(robot.leftFront, power * (strafe ? -1 : 1));
             initMotor(robot.rightFront, power);
