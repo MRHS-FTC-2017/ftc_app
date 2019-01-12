@@ -84,22 +84,23 @@ public class ForwardColorDepotPhase implements AutonomousPhase {
         }
 
         if (runtime.milliseconds() >= maxDuration) {
-            setMotors(robot, 0);
-            isComplete = true;
+            setMotors(robot, -power);
         }
 
         if (isComplete) {
             if (elementsPassed == 1) {
                 injectedPhases = new LinkedList<>();
-                injectedPhases.add(new TurnDurationPhase(100,-0.60));
-                injectedPhases.add(new ForwardDurationPhase(700, 1, true));
+                injectedPhases.add(new ForwardDurationPhase(400, 1, true));
+                injectedPhases.add(new TurnDurationPhase(200,-0.60));
+                injectedPhases.add(new ForwardDurationPhase(1200, 1, false));
             } else if (elementsPassed == 2) {
                 injectedPhases = new LinkedList<>();
-                injectedPhases.add(new ForwardDurationPhase(700, 1, true));
+                injectedPhases.add(new ForwardDurationPhase(200, 1, true));
+                injectedPhases.add(new ForwardDurationPhase(1200, 1, false));
             } else if (elementsPassed == 3) {
                 injectedPhases = new LinkedList<>();
-                injectedPhases.add(new TurnDurationPhase(100, 0.60));
-                injectedPhases.add(new ForwardDurationPhase(700, 1, true));
+                injectedPhases.add(new TurnDurationPhase(300, 0.60));
+                injectedPhases.add(new ForwardDurationPhase(1200, 1, false));
             }
         }
 

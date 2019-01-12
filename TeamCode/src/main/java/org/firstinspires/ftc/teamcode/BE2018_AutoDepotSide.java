@@ -25,19 +25,24 @@ public class BE2018_AutoDepotSide extends AutoAbstract {
         phaseList.add(new ForwardDurationPhase(100, -0.28, true));
 
         // forward to minerals
-        phaseList.add(new ForwardSensePhase(3.85, 1, false, 15, 0.90));
+        phaseList.add(new ForwardSensePhase(3.75, 1, false, 15, 0.98));
 
-        // strafe left beyond leftmost mineral
+        // strafe left towards leftmost mineral
         phaseList.add(new ForwardDurationPhase(200, 1, true));
+
+        // strafe to leftmost mineral
         phaseList.add(new ForwardSensePhase(5, 0.25,true, 0, 0));
-        phaseList.add(new ForwardDurationPhase(10, 0.5, true));
+
+        //strafe past leftmost mineral
+        phaseList.add(new ForwardDurationPhase(200, 0.5, true));
 
         // strafe to select gold mineral
-        phaseList.add(new ForwardColorDepotPhase(-0.28, true,45,10, 10000, 9));
+        phaseList.add(new ForwardColorDepotPhase(-0.28, true,60,10, 10000, 9));
 
-        //
-
+        // Drop Marker
         phaseList.add(new MarkerDropPhase(0.87, true));
+
+        // Do Nothing
         phaseList.add(new DoNothingPhase());
     }
 }
