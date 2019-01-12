@@ -19,22 +19,19 @@ public class BE2018_AutoCraterSide extends AutoAbstract {
         phaseList.add(new DropRobotPhase());
 
         // escape latch
-        phaseList.add(new ForwardDurationPhase(60, 0.4, true));
-        phaseList.add(new ForwardDurationPhase(60, 0.4, false));
-        phaseList.add(new ForwardDurationPhase(60, -0.4, true));
+        phaseList.add(new ForwardDurationPhase(100, 0.28, true));
+        phaseList.add(new ForwardDurationPhase(100, 0.28, false));
+        phaseList.add(new ForwardDurationPhase(100, -0.28, true));
 
         // forward to minerals
-        phaseList.add(new ForwardSensePhase(3.75, 1, false, 15, 0.98));
+        phaseList.add(new ForwardSensePhase(3.85, 1, false, 15, 0.90));
 
-        // strafe left toward leftmost mineral
+        // strafe left beyond leftmost mineral
         phaseList.add(new ForwardDurationPhase(200, 1, true));
-        //strafe to left most mineral
-        phaseList.add(new ForwardSensePhase(5, 0.30,true, 0, 0));
-        //strafe past leftmost mineral
+        phaseList.add(new ForwardSensePhase(5, 0.25,true, 0, 0));
         phaseList.add(new ForwardDurationPhase(10, 0.5, true));
-        //straft to gold mineral
-        phaseList.add(new ForwardColorCraterPhase(-0.30, true,50,10, 10000, 9));
-        //push gold mineral
+
+        phaseList.add(new ForwardColorCraterPhase(-0.28, true,50,10, 10000, 9));
         phaseList.add(new ForwardDurationPhase(150, 1, false));
         phaseList.add(new ForwardDurationPhase(300, -1, false));
         phaseList.add(new ForwardDurationPhase(550, 1, true));

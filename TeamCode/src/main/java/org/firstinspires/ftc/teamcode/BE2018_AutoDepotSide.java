@@ -28,7 +28,7 @@ public class BE2018_AutoDepotSide extends AutoAbstract {
         phaseList.add(new ForwardSensePhase(3.75, 1, false, 15, 0.98));
 
         // strafe left towards leftmost mineral
-        phaseList.add(new ForwardDurationPhase(400, 0.5, true));
+        phaseList.add(new ForwardDurationPhase(200, 1, true));
 
         // strafe to leftmost mineral
         phaseList.add(new ForwardSensePhase(5, 0.25,true, 0, 0));
