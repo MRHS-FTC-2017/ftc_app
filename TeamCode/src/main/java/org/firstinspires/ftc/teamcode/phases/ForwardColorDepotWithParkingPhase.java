@@ -9,9 +9,8 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.RobotHardware;
 
 import java.util.LinkedList;
-import java.util.List;
 
-public class ForwardColorDepotPhase implements AutonomousPhase {
+public class ForwardColorDepotWithParkingPhase implements AutonomousPhase {
 
 
     private boolean isInitialized = false;
@@ -35,7 +34,7 @@ public class ForwardColorDepotPhase implements AutonomousPhase {
      * @param hueMax Maximum hue to recognize as target color
      * @param hueMin Minimum hue to recognize as target color
      */
-    public ForwardColorDepotPhase(double power, boolean strafe, double hueMax, double hueMin, long maxDuration, double cutOff) {
+    public ForwardColorDepotWithParkingPhase(double power, boolean strafe, double hueMax, double hueMin, long maxDuration, double cutOff) {
         this.power = power;
         this.strafe = strafe;
         this.hueMax = hueMax;
@@ -92,15 +91,56 @@ public class ForwardColorDepotPhase implements AutonomousPhase {
                 injectedPhases = new LinkedList<>();
                 injectedPhases.add(new ForwardDurationPhase(400, 1, true));
                 injectedPhases.add(new TurnDurationPhase(200,-0.60));
-                injectedPhases.add(new ForwardDurationPhase(1200, 1, false));
+                injectedPhases.add(new ForwardDurationPhase(1300, 1, false));
+                //Drop Marker
+                injectedPhases.add(new MarkerDropPhase(0.87, true));
+                //Back away from marker
+                injectedPhases.add(new ForwardDurationPhase(100, -0.25, false));
+                //strafes diagonally towards crater
+                injectedPhases.add(new ForwardDurationPhase(770, -1, true));
+                //turn to be facing wall
+                injectedPhases.add(new TurnDurationPhase(150, -1));
+                //strafes onto crater
+                injectedPhases.add(new ForwardDurationPhase(1600, -1, true));
+                //turns to get second wheel on crater
+                injectedPhases.add(new TurnDurationPhase(150, 1));
+                //drives into crater
+                injectedPhases.add(new ForwardDurationPhase(700, -1, true));
+
             } else if (elementsPassed == 2) {
                 injectedPhases = new LinkedList<>();
                 injectedPhases.add(new ForwardDurationPhase(200, 1, true));
                 injectedPhases.add(new ForwardDurationPhase(1200, 1, false));
+                //Drop Marker
+                injectedPhases.add(new MarkerDropPhase(0.87, true));
+                //Back away from marker
+                injectedPhases.add(new ForwardDurationPhase(100, -0.25, false));
+                //strafes diagonally towards crater
+                injectedPhases.add(new ForwardDurationPhase(200, -1, true));
+                //turn to be facing wall
+                injectedPhases.add(new TurnDurationPhase(190, -1));
+                //strafes onto crater
+                injectedPhases.add(new ForwardDurationPhase(2000, -1, true));
+                //turns to get second wheel on crater
+                injectedPhases.add(new TurnDurationPhase(170, 1));
+                //drives into crater
+                injectedPhases.add(new ForwardDurationPhase(700, -1, true));
             } else if (elementsPassed == 3) {
                 injectedPhases = new LinkedList<>();
                 injectedPhases.add(new TurnDurationPhase(200, 0.50));
-                injectedPhases.add(new ForwardDurationPhase(1200, 1, false));
+                injectedPhases.add(new ForwardDurationPhase(1400, 1, false));
+                //Drop Marker
+                injectedPhases.add(new MarkerDropPhase(0.87, true));
+                //Back away from marker
+                injectedPhases.add(new ForwardDurationPhase(100, -0.25, false));
+                //turn to be facing wall
+                injectedPhases.add(new TurnDurationPhase(350, -1));
+                //strafes onto crater
+                injectedPhases.add(new ForwardDurationPhase(2000, -1, true));
+                //turns to get second wheel on crater
+                injectedPhases.add(new TurnDurationPhase(170, 1));
+                //drives into crater
+                injectedPhases.add(new ForwardDurationPhase(700, -1, true));
             }
         }
 
