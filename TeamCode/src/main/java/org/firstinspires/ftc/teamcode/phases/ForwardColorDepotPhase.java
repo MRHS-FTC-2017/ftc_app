@@ -78,7 +78,7 @@ public class ForwardColorDepotPhase implements AutonomousPhase {
             seen = false;
         }
 
-        if (robot.getColorLeftHue() <= hueMax && robot.getColorLeftHue() >= hueMin) {
+        if (robot.getColorFrontHue() <= hueMax && robot.getColorFrontHue() >= hueMin) {
             setMotors(robot, 0);
             isComplete = true;
         }
@@ -93,14 +93,17 @@ public class ForwardColorDepotPhase implements AutonomousPhase {
                 injectedPhases.add(new ForwardDurationPhase(400, 1, true));
                 injectedPhases.add(new TurnDurationPhase(200,-0.60));
                 injectedPhases.add(new ForwardDurationPhase(1200, 1, false));
+                injectedPhases.add(new TurnDurationPhase(450, -1));
             } else if (elementsPassed == 2) {
                 injectedPhases = new LinkedList<>();
-                injectedPhases.add(new ForwardDurationPhase(200, 1, true));
+                injectedPhases.add(new ForwardDurationPhase(125, 1, true));
                 injectedPhases.add(new ForwardDurationPhase(1200, 1, false));
+                injectedPhases.add(new TurnDurationPhase(450, -1));
             } else if (elementsPassed == 3) {
                 injectedPhases = new LinkedList<>();
-                injectedPhases.add(new TurnDurationPhase(200, 0.50));
+                injectedPhases.add(new TurnDurationPhase(1250, 0.50));
                 injectedPhases.add(new ForwardDurationPhase(1200, 1, false));
+                injectedPhases.add(new TurnDurationPhase(300, -1));
             }
         }
 

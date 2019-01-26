@@ -77,7 +77,7 @@ public class ForwardColorCraterAndClaimingPhase implements AutonomousPhase {
             seen = false;
         }
 
-        if (robot.getColorLeftHue() <= hueMax && robot.getColorLeftHue() >= hueMin) {
+        if (robot.getColorFrontHue() <= hueMax && robot.getColorFrontHue() >= hueMin) {
             setMotors(robot, 0);
             isComplete = true;
         }
@@ -103,7 +103,7 @@ public class ForwardColorCraterAndClaimingPhase implements AutonomousPhase {
                 //drive into depot
                 injectedPhases.add(new ForwardDurationPhase(1400, 1, false));
                 //drop marker
-                injectedPhases.add(new MarkerDropPhase(0.87, true));
+                injectedPhases.add(new MarkerDropPhase(1,5000));
 
             } else if (elementsPassed == 2) {
                 injectedPhases = new LinkedList<>();
@@ -120,7 +120,7 @@ public class ForwardColorCraterAndClaimingPhase implements AutonomousPhase {
                 //drive into depot
                 injectedPhases.add(new ForwardDurationPhase(1400, 1, false));
                 //drop marker
-                injectedPhases.add(new MarkerDropPhase(0.87, true));
+                injectedPhases.add(new MarkerDropPhase(1,5000));
             } else if (elementsPassed == 3) {
                 injectedPhases = new LinkedList<>();
                 //adjust to push mineral
@@ -136,7 +136,7 @@ public class ForwardColorCraterAndClaimingPhase implements AutonomousPhase {
                 //drive into depot
                 injectedPhases.add(new ForwardDurationPhase(1400, 1, false));
                 //drop marker
-                injectedPhases.add(new MarkerDropPhase(0.87, true));
+                injectedPhases.add(new MarkerDropPhase(1,5000));
             }
         }
 

@@ -22,26 +22,21 @@ public class RobotHardware {
     public DcMotor leftBack = null;
     public DcMotor rightBack = null;
     public DcMotor hook = null;
+    public DcMotor collector = null;
 
-    public Servo arm = null;
-
-    public ColorSensor colorRight = null;
-    public ColorSensor colorLeft = null;
+    public ColorSensor colorFront = null;
 
     public DistanceSensor distanceOuterLeft = null;
     public DistanceSensor distanceInnerLeft = null;
     public DistanceSensor distanceInnerRight = null;
     public DistanceSensor distanceOuterRight = null;
 
-    int colorRightHue;
-    int colorLeftHue;
+    int colorFrontHue;
 
     double distOL;
     double distIL;
     double distIR;
     double distOR;
-
-    double armCurrentPosition;
 
     public RobotHardware() {}
 
@@ -55,28 +50,27 @@ public class RobotHardware {
         leftBack = hwMap.get(DcMotor.class, "leftBack");
         rightBack = hwMap.get(DcMotor.class, "rightBack");
         hook = hwMap.get(DcMotor.class, "hook");
-        arm = hwMap.get(Servo.class, "arm");
+        collector = hwMap.get(DcMotor.class, "collector");
 
         // Hardware Mappings for Color & Distance Sensors
-        colorRight = hwMap.get(ColorSensor.class, "colorRight");
-        colorLeft = hwMap.get(ColorSensor.class, "colorLeft");
+        colorFront = hwMap.get(ColorSensor.class, "colorFront");
         distanceOuterLeft = hwMap.get(DistanceSensor.class, "distanceOuterLeft");
         distanceInnerLeft = hwMap.get(DistanceSensor.class, "distanceInnerLeft");
         distanceInnerRight = hwMap.get(DistanceSensor.class, "distanceInnerRight");
         distanceOuterRight = hwMap.get(DistanceSensor.class, "distanceOuterRight");
 
-//        leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        rightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        collector.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         leftFront.setDirection(DcMotor.Direction.REVERSE);
         rightFront.setDirection(DcMotor.Direction.FORWARD);
         leftBack.setDirection(DcMotor.Direction.REVERSE);
         rightBack.setDirection(DcMotor.Direction.FORWARD);
         hook.setDirection(DcMotor.Direction.REVERSE);
-
-        arm.setPosition(0.25);
+        collector.setDirection(DcMotorSimple.Direction.REVERSE);
 
     }
 
@@ -98,13 +92,9 @@ public class RobotHardware {
 
         telemetry.addData("Phase", "%s", phase.getClass().getName());
 
-        hsvOfColorSensor(colorRight, hsv);
-        colorRightHue = (int)hsv[0];
+        hsvOfColorSensor(colorFront, hsv);
+        colorFrontHue = (int)hsv[0];
         telemetry.addData("Right HSV", "(%.2f, %.2f, %.2f)", hsv[0], hsv[1], hsv[2]);
-
-        hsvOfColorSensor(colorLeft, hsv);
-        colorLeftHue = (int)hsv[0];
-        telemetry.addData("Left HSV", "(%.2f, %.2f, %.2f)", hsv[0], hsv[1], hsv[2]);
 
         distOL = distanceOuterLeft.getDistance(DistanceUnit.INCH);
         distIL = distanceInnerLeft.getDistance(DistanceUnit.INCH);
@@ -115,18 +105,11 @@ public class RobotHardware {
 
         telemetry.addData("Hook Position", "%d", hook.getCurrentPosition());
 
-        armCurrentPosition = arm.getPosition();
-
-        telemetry.addData("Servo Position", "%.0f", armCurrentPosition);
 
     }
 
-    public int getColorRightHue() {
-        return colorRightHue;
-    }
-
-    public int getColorLeftHue() {
-        return colorLeftHue;
+    public int getColorFrontHue() {
+        return colorFrontHue;
     }
 
     public double getNearestObject() {
@@ -148,8 +131,6 @@ public class RobotHardware {
     public double getDistIL() { return  distIL; }
 
     public double getDistIR() { return distIR; }
-
-    public double getArmCurrentPosition () { return armCurrentPosition; }
 }
 
 
