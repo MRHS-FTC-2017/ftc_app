@@ -9,6 +9,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.RobotHardware;
 
 import java.util.LinkedList;
+import java.util.List;
 
 public class ForwardColorCraterPhase implements AutonomousPhase {
 
@@ -68,12 +69,12 @@ public class ForwardColorCraterPhase implements AutonomousPhase {
         //Looks for spikes in distance
         //////////
 
-        if (robot.getDistIL() <= cutOff && !seen) {
+        if (robot.getDistOL() <= cutOff && !seen) {
             elementsPassed += 1;
             seen = true;
         }
 
-        if (robot.getDistIL() > cutOff && seen) {
+        if (robot.getDistOL() > cutOff && seen) {
             seen = false;
         }
 
@@ -83,23 +84,33 @@ public class ForwardColorCraterPhase implements AutonomousPhase {
         }
 
         if (runtime.milliseconds() >= maxDuration) {
-            setMotors(robot, 0);
-            isComplete = true;
+            setMotors(robot, -power);
         }
 
         if (isComplete) {
             if (elementsPassed == 1) {
                 injectedPhases = new LinkedList<>();
-                injectedPhases.add(new TurnDurationPhase(1000,-0.6));
-                injectedPhases.add(new ForwardDurationPhase(250, 1, true));
-
+                injectedPhases.add(new ForwardDurationPhase(400, 1, true));
+                injectedPhases.add(new ForwardDurationPhase(150, 1, false));
+                injectedPhases.add(new ForwardDurationPhase(150, -1, false));
+                injectedPhases.add(new TurnDurationPhase(500,1));
+                injectedPhases.add(new ForwardDurationPhase(1200, 1, false));
+                injectedPhases.add(new TurnDurationPhase(450, -1));
             } else if (elementsPassed == 2) {
                 injectedPhases = new LinkedList<>();
-                injectedPhases.add(new ForwardDurationPhase(250, 1, true));
+                injectedPhases.add(new ForwardDurationPhase(400, 1, true));
+                injectedPhases.add(new ForwardDurationPhase(150, 1, false));
+                injectedPhases.add(new ForwardDurationPhase(150, -1, false));
+                injectedPhases.add(new TurnDurationPhase(200,0.60));
+                injectedPhases.add(new ForwardDurationPhase(1600, 1, false));
+                injectedPhases.add(new TurnDurationPhase(450, -1));
             } else if (elementsPassed == 3) {
-                injectedPhases = new LinkedList<>();
-                injectedPhases.add(new TurnDurationPhase(100, 0.60));
-                injectedPhases.add(new ForwardDurationPhase(250, 1, true));
+                injectedPhases.add(new ForwardDurationPhase(400, 1, true));
+                injectedPhases.add(new ForwardDurationPhase(150, 1, false));
+                injectedPhases.add(new ForwardDurationPhase(150, -1, false));
+                injectedPhases.add(new TurnDurationPhase(200,0.60));
+                injectedPhases.add(new ForwardDurationPhase(1800, 1, false));
+                injectedPhases.add(new TurnDurationPhase(450, -1));
             }
         }
 
