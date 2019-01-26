@@ -24,7 +24,7 @@ public class BE2018_AutoCraterSide extends AutoAbstract {
         phaseList.add(new ForwardDurationPhase(60, -0.4, true));
 
         // forward to minerals
-        phaseList.add(new ForwardSensePhase(3.75, 1, false, 15, 0.98));
+        phaseList.add(new ForwardSensePhase(3.55, 1, false, 15, 0.98));
 
         // strafe left toward leftmost mineral
         phaseList.add(new ForwardDurationPhase(200, 1, true));

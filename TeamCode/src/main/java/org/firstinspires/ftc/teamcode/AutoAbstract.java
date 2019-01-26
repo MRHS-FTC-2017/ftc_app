@@ -10,7 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public abstract class AutoAbstract extends OpMode {
-    private RobotHardware robot = new RobotHardware();
+    public RobotHardware robot = new RobotHardware();
     private LinkedList<AutonomousPhase> phaseList = null;
     private AutonomousPhase currentPhase = null;
 

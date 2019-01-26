@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 public class BE2018_TeleOp extends OpMode
 {
     private double direction = 1;
+    private double setDirection = -1;
     private double power = 0.75;
     private double lowPower = 0.25;
     private double highPower = 0.75;
@@ -26,16 +27,21 @@ public class BE2018_TeleOp extends OpMode
         double x = gamepad1.left_stick_x;
         double y = gamepad1.left_stick_y;
 
+        //Driving
+
+
         if (gamepad1.x) {
             if (!xButtonHeld) {
                 if (power == highPower) {
                     power = lowPower;
-                } else {
+                }
+                else {
                     power = highPower;
                 }
                 xButtonHeld = true;
             }
-        } else {
+        }
+        else {
             xButtonHeld = false;
         }
 
@@ -44,42 +50,58 @@ public class BE2018_TeleOp extends OpMode
                 direction *= -1;
                 yButtonHeld = true;
             }
-        } else {
+        }
+        else {
             yButtonHeld = false;
         }
 
-        robot.leftFront.setPower((y - x) * direction * -power);
+        robot.leftFront.setPower((y - x) * setDirection * -power);
         robot.rightFront.setPower(-(y + x) * direction * power);
         robot.leftBack.setPower((y + x) * direction * -power);
-        robot.rightBack.setPower((x - y) * direction * power);
+        robot.rightBack.setPower((x - y) * setDirection * power);
 
-        if(gamepad1.left_bumper){
+        if (gamepad1.left_bumper){
             robot.leftFront.setPower(-1 * power);
             robot.rightFront.setPower(1* power);
             robot.leftBack.setPower(-1 * power);
             robot.rightBack.setPower(1 * power);
         }
-        else if(gamepad1.right_bumper){
+        else if (gamepad1.right_bumper){
             robot.leftFront.setPower(1 * power);
             robot.rightFront.setPower(-1* power);
             robot.leftBack.setPower(1 * power);
             robot.rightBack.setPower(-1 * power);
         }
 
+
+        //hook
+
         double hook;
 
-        if(gamepad1.dpad_up){
+        if (gamepad1.dpad_up){
             robot.hook.setPower(0.5);
             hook = -0.5;
         }
-        else if(gamepad1.dpad_down){
+        else if (gamepad1.dpad_down){
             robot.hook.setPower(-0.5);
             hook = -0.5;
         }
-        else{
+        else {
             robot.hook.setPower(0);
             hook = 0;
         }
+
+
+        //collector
+
+        if (gamepad1.left_trigger > gamepad1.right_trigger) {
+            robot.collector.setPower(gamepad1.left_trigger);
+        }
+        else if (gamepad1.right_trigger >= gamepad1.left_trigger) {
+            robot.collector.setPower(-gamepad1.right_trigger);
+        }
+
+
 
         // All For Telemetry //
         double righty = gamepad1.right_stick_y;

@@ -77,7 +77,7 @@ public class ForwardColorCraterPhase implements AutonomousPhase {
             seen = false;
         }
 
-        if (robot.getColorLeftHue() <= hueMax && robot.getColorLeftHue() >= hueMin) {
+        if (robot.getColorFrontHue() <= hueMax && robot.getColorFrontHue() >= hueMin) {
             setMotors(robot, 0);
             isComplete = true;
         }

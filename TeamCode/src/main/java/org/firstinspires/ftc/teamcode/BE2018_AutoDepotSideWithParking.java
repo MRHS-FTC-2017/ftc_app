@@ -36,10 +36,11 @@ public class BE2018_AutoDepotSideWithParking extends AutoAbstract {
         //strafe past leftmost mineral
         phaseList.add(new ForwardDurationPhase(200, 0.5, true));
 
-        // strafe to select gold mineral
-        phaseList.add(new ForwardColorDepotWithParkingPhase(-0.34, true,50,10, 10000, 9));
+        //adjust distance
+        phaseList.add(new ForwardSensePhase(3, 0.25, false, 0,0));
 
-
+                // strafe to select gold mineral
+        phaseList.add(new ForwardColorDepotWithParkingPhase(-0.30, true,60,10, 10000, 9));
 
         // Do Nothing
         phaseList.add(new DoNothingPhase());

@@ -77,7 +77,7 @@ public class ForwardColorDepotWithParkingPhase implements AutonomousPhase {
             seen = false;
         }
 
-        if (robot.getColorLeftHue() <= hueMax && robot.getColorLeftHue() >= hueMin) {
+        if (robot.getColorFrontHue() <= hueMax && robot.getColorFrontHue() >= hueMin) {
             setMotors(robot, 0);
             isComplete = true;
         }
@@ -93,15 +93,15 @@ public class ForwardColorDepotWithParkingPhase implements AutonomousPhase {
                 injectedPhases.add(new TurnDurationPhase(200,-0.60));
                 injectedPhases.add(new ForwardDurationPhase(1300, 1, false));
                 //Drop Marker
-                injectedPhases.add(new MarkerDropPhase(0.87, true));
+                injectedPhases.add(new MarkerDropPhase());
                 //Back away from marker
-                injectedPhases.add(new ForwardDurationPhase(100, -0.25, false));
+                injectedPhases.add(new ForwardDurationPhase(150, -0.25, false));
                 //strafes diagonally towards crater
-                injectedPhases.add(new ForwardDurationPhase(770, -1, true));
+                injectedPhases.add(new ForwardDurationPhase(900, -1, true));
                 //turn to be facing wall
-                injectedPhases.add(new TurnDurationPhase(150, -1));
+                injectedPhases.add(new TurnDurationPhase(160, -1));
                 //strafes onto crater
-                injectedPhases.add(new ForwardDurationPhase(1600, -1, true));
+                injectedPhases.add(new ForwardDurationPhase(2200, -1, true));
                 //turns to get second wheel on crater
                 injectedPhases.add(new TurnDurationPhase(150, 1));
                 //drives into crater
@@ -112,7 +112,7 @@ public class ForwardColorDepotWithParkingPhase implements AutonomousPhase {
                 injectedPhases.add(new ForwardDurationPhase(200, 1, true));
                 injectedPhases.add(new ForwardDurationPhase(1200, 1, false));
                 //Drop Marker
-                injectedPhases.add(new MarkerDropPhase(0.87, true));
+                injectedPhases.add(new MarkerDropPhase());
                 //Back away from marker
                 injectedPhases.add(new ForwardDurationPhase(100, -0.25, false));
                 //strafes diagonally towards crater
@@ -120,7 +120,7 @@ public class ForwardColorDepotWithParkingPhase implements AutonomousPhase {
                 //turn to be facing wall
                 injectedPhases.add(new TurnDurationPhase(190, -1));
                 //strafes onto crater
-                injectedPhases.add(new ForwardDurationPhase(2000, -1, true));
+                injectedPhases.add(new ForwardDurationPhase(2200, -1, true));
                 //turns to get second wheel on crater
                 injectedPhases.add(new TurnDurationPhase(170, 1));
                 //drives into crater
@@ -130,13 +130,13 @@ public class ForwardColorDepotWithParkingPhase implements AutonomousPhase {
                 injectedPhases.add(new TurnDurationPhase(200, 0.50));
                 injectedPhases.add(new ForwardDurationPhase(1400, 1, false));
                 //Drop Marker
-                injectedPhases.add(new MarkerDropPhase(0.87, true));
+                injectedPhases.add(new MarkerDropPhase());
                 //Back away from marker
                 injectedPhases.add(new ForwardDurationPhase(100, -0.25, false));
                 //turn to be facing wall
                 injectedPhases.add(new TurnDurationPhase(350, -1));
                 //strafes onto crater
-                injectedPhases.add(new ForwardDurationPhase(2000, -1, true));
+                injectedPhases.add(new ForwardDurationPhase(2200, -1, true));
                 //turns to get second wheel on crater
                 injectedPhases.add(new TurnDurationPhase(170, 1));
                 //drives into crater

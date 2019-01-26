@@ -64,12 +64,11 @@ public class ForwardColorDepotPhase implements AutonomousPhase {
 
         }
 
-
         //////////
         //Looks for spikes in distance
         //////////
 
-        if (robot.getDistIL() <= cutOff && !seen) {
+        if (robot.getDistIR() <= cutOff && !seen) {
             elementsPassed += 1;
             seen = true;
         }
@@ -78,7 +77,7 @@ public class ForwardColorDepotPhase implements AutonomousPhase {
             seen = false;
         }
 
-        if (robot.getColorLeftHue() <= hueMax && robot.getColorLeftHue() >= hueMin) {
+        if (robot.getColorFrontHue() <= hueMax && robot.getColorFrontHue() >= hueMin) {
             setMotors(robot, 0);
             isComplete = true;
         }
