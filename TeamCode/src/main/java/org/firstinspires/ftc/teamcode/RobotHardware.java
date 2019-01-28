@@ -58,12 +58,12 @@ public class RobotHardware {
         distanceInnerLeft = hwMap.get(DistanceSensor.class, "distanceInnerLeft");
         distanceInnerRight = hwMap.get(DistanceSensor.class, "distanceInnerRight");
         distanceOuterRight = hwMap.get(DistanceSensor.class, "distanceOuterRight");
-
-        leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        collector.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//
+//        leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        rightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        collector.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         leftFront.setDirection(DcMotor.Direction.REVERSE);
         rightFront.setDirection(DcMotor.Direction.FORWARD);

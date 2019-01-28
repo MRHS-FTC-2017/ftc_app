@@ -101,8 +101,9 @@ public class ForwardColorDepotPhase implements AutonomousPhase {
                 injectedPhases.add(new ForwardDurationPhase(130, 1, true));
             } else if (elementsPassed == 3) {
                 injectedPhases = new LinkedList<>();
+                injectedPhases.add(new ForwardDurationPhase(100, 0.5, true));
                 injectedPhases.add(new TurnDurationPhase(300, 0.50));
-                injectedPhases.add(new ForwardDurationPhase(1200, 1, false));
+                injectedPhases.add(new ForwardDurationPhase(1300, 1, false));
                 injectedPhases.add(new TurnDurationPhase(550, -1));
             }
         }

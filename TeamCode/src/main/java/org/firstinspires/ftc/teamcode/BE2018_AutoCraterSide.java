@@ -6,6 +6,7 @@ import org.firstinspires.ftc.teamcode.phases.AutonomousPhase;
 import org.firstinspires.ftc.teamcode.phases.DoNothingPhase;
 import org.firstinspires.ftc.teamcode.phases.DropRobotPhase;
 import org.firstinspires.ftc.teamcode.phases.ForwardColorCraterPhase;
+import org.firstinspires.ftc.teamcode.phases.ForwardColorDepotPhase;
 import org.firstinspires.ftc.teamcode.phases.ForwardDurationPhase;
 import org.firstinspires.ftc.teamcode.phases.ForwardSensePhase;
 import org.firstinspires.ftc.teamcode.phases.MarkerDropPhase;
@@ -28,13 +29,10 @@ public class BE2018_AutoCraterSide extends AutoAbstract {
         phaseList.add(new ForwardSensePhase(3.25, 1, false, 15, 0.98));
 
         //strafe past leftmost mineral
-        phaseList.add(new ForwardDurationPhase(700, 1, true));
+        phaseList.add(new ForwardDurationPhase(750, 1, true));
 
         // strafe to select gold mineral
-        phaseList.add(new ForwardColorCraterPhase(-0.28, true,60,10, 20000, 9));
-
-        // Drop Marker
-        phaseList.add(new MarkerDropPhase (1, 5000));
+        phaseList.add(new ForwardColorCraterPhase(-0.28, true,45,12, 20000, 9));
 
         // Do Nothing
         phaseList.add(new DoNothingPhase());

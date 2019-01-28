@@ -6,12 +6,11 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 @TeleOp(name="BE2018_TeleOp", group="Iterative Opmode")
 public class BE2018_TeleOp extends OpMode
 {
-    private double direction = 1;
-    private double power = 0.75;
+    private double power = 1;
     private double lowPower = 0.25;
-    private double highPower = 0.75;
+    private double highPower = 1;
     private boolean xButtonHeld = false;
-    private boolean yButtonHeld = false;
+
 
     RobotHardware robot = new RobotHardware();
 
@@ -44,20 +43,11 @@ public class BE2018_TeleOp extends OpMode
             xButtonHeld = false;
         }
 
-        if (gamepad1.y) {
-            if (!yButtonHeld) {
-                direction *= -1;
-                yButtonHeld = true;
-            }
-        }
-        else {
-            yButtonHeld = false;
-        }
 
-        robot.leftFront.setPower(-(y - x) * -power);
-        robot.rightFront.setPower((y + x) * direction * power);
-        robot.leftBack.setPower(-(y + x) * direction * -power);
-        robot.rightBack.setPower(-(x - y) * power);
+        robot.leftFront.setPower(-(y + x) * -power);
+        robot.rightFront.setPower((-y + x) * power);
+        robot.leftBack.setPower(-(-y + x) * -power);
+        robot.rightBack.setPower((y + x) * power);
 
         if (gamepad1.left_bumper){
             robot.leftFront.setPower(-1 * power);

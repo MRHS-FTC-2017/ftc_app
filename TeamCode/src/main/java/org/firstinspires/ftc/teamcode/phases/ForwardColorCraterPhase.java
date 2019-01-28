@@ -90,27 +90,13 @@ public class ForwardColorCraterPhase implements AutonomousPhase {
         if (isComplete) {
             if (elementsPassed == 1) {
                 injectedPhases = new LinkedList<>();
-                injectedPhases.add(new ForwardDurationPhase(400, 1, true));
-                injectedPhases.add(new ForwardDurationPhase(150, 1, false));
-                injectedPhases.add(new ForwardDurationPhase(150, -1, false));
-                injectedPhases.add(new TurnDurationPhase(500,1));
-                injectedPhases.add(new ForwardDurationPhase(1200, 1, false));
-                injectedPhases.add(new TurnDurationPhase(450, -1));
+                injectedPhases.add(new ForwardDurationPhase(200, 1, false));
             } else if (elementsPassed == 2) {
                 injectedPhases = new LinkedList<>();
-                injectedPhases.add(new ForwardDurationPhase(400, 1, true));
-                injectedPhases.add(new ForwardDurationPhase(150, 1, false));
-                injectedPhases.add(new ForwardDurationPhase(150, -1, false));
-                injectedPhases.add(new TurnDurationPhase(200,0.60));
-                injectedPhases.add(new ForwardDurationPhase(1600, 1, false));
-                injectedPhases.add(new TurnDurationPhase(450, -1));
+                injectedPhases.add(new ForwardDurationPhase(200, 1, false));
             } else if (elementsPassed == 3) {
-                injectedPhases.add(new ForwardDurationPhase(400, 1, true));
-                injectedPhases.add(new ForwardDurationPhase(150, 1, false));
-                injectedPhases.add(new ForwardDurationPhase(150, -1, false));
-                injectedPhases.add(new TurnDurationPhase(200,0.60));
-                injectedPhases.add(new ForwardDurationPhase(1800, 1, false));
-                injectedPhases.add(new TurnDurationPhase(450, -1));
+                injectedPhases = new LinkedList<>();
+                injectedPhases.add(new ForwardDurationPhase(200, 1, false));
             }
         }
 
