@@ -23,6 +23,7 @@ public class RobotHardware {
     public DcMotor rightBack = null;
     public DcMotor hook = null;
     public DcMotor collector = null;
+    public DcMotor xRail = null;
 
     public ColorSensor colorFront = null;
 
@@ -51,6 +52,7 @@ public class RobotHardware {
         rightBack = hwMap.get(DcMotor.class, "rightBack");
         hook = hwMap.get(DcMotor.class, "hook");
         collector = hwMap.get(DcMotor.class, "collector");
+        xRail = hwMap.get(DcMotor.class, "xRail");
 
         // Hardware Mappings for Color & Distance Sensors
         colorFront = hwMap.get(ColorSensor.class, "colorFront");

@@ -11,7 +11,7 @@ import java.util.LinkedList;
 
 public class DropRobotPhase implements AutonomousPhase {
 
-    public static final int HOOK_POSITION_UP = 7900;
+    public static final int HOOK_POSITION_UP = 9000;
     private boolean isInitialized = false;
 
     /**
